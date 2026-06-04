@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/index.go": {
-      "runtime": "go1.x",
+      "runtime": "now-go@1.26",
       "memory": 256
     }
   },
