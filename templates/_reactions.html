@@ -1,0 +1,25 @@
+{{define "reaction-badges-mini"}}
+<div class="card-reactions-display">
+    {{if gt .Like 0}}
+    <span class="mini-reaction" title="Like"><i class="fa-solid fa-thumbs-up text-like"></i> {{.Like}}</span>
+    {{end}}
+    {{if gt .Love 0}}
+    <span class="mini-reaction" title="Love"><i class="fa-solid fa-heart text-love"></i> {{.Love}}</span>
+    {{end}}
+    {{if gt .Haha 0}}
+    <span class="mini-reaction" title="Haha"><i class="fa-solid fa-face-laugh-squint text-haha"></i> {{.Haha}}</span>
+    {{end}}
+    {{if gt .Wow 0}}
+    <span class="mini-reaction" title="Wow"><i class="fa-solid fa-face-surprise text-wow"></i> {{.Wow}}</span>
+    {{end}}
+    {{if gt .Sad 0}}
+    <span class="mini-reaction" title="Sad"><i class="fa-solid fa-face-sad-tear text-sad"></i> {{.Sad}}</span>
+    {{end}}
+    {{if gt .Fire 0}}
+    <span class="mini-reaction" title="Fire"><i class="fa-solid fa-fire text-fire"></i> {{.Fire}}</span>
+    {{end}}
+    {{if gt .Clap 0}}
+    <span class="mini-reaction" title="Clap"><i class="fa-solid fa-hands-clapping text-clap"></i> {{.Clap}}</span>
+    {{end}}
+</div>
+{{end}}

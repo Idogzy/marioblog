@@ -1,0 +1,95 @@
+{{define "content"}}
+<div class="admin-profile-page">
+    {{if .Success}}
+    <div class="profile-toast">
+        <i class="fa-solid fa-circle-check"></i> Profile updated successfully
+    </div>
+    {{end}}
+
+    <div class="profile-hero">
+        <div class="profile-hero-banner">
+            <div class="profile-hero-pattern"></div>
+            <div class="container profile-banner-inner">
+                <div class="profile-banner-text">
+                    <span class="profile-eyebrow"><i class="fa-solid fa-crown"></i> Admin Profile</span>
+                    <h1>{{.Admin.DisplayName}}</h1>
+                    <p class="profile-tagline">{{.Admin.Tagline}}</p>
+                </div>
+                <div class="profile-hero-actions">
+                    <a href="/admin/settings" class="btn-profile-edit"><i class="fa-solid fa-gear"></i> Edit Profile</a>
+                    <a href="/admin/dashboard" class="btn-profile-secondary"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container profile-hero-card">
+            <div class="profile-avatar-wrap">
+                {{if .Admin.Avatar}}
+                <img src="{{.Admin.Avatar}}" alt="{{.Admin.DisplayName}}" class="profile-avatar-img">
+                {{else}}
+                <div class="profile-avatar-placeholder">
+                    <span>{{firstChar .Admin.DisplayName}}</span>
+                </div>
+                {{end}}
+            </div>
+            <div class="profile-quick-meta">
+                {{if .Admin.Location}}
+                <span><i class="fa-solid fa-location-dot"></i> {{.Admin.Location}}</span>
+                {{end}}
+                {{if .Admin.Email}}
+                <span><i class="fa-regular fa-envelope"></i> {{.Admin.Email}}</span>
+                {{end}}
+                <span><i class="fa-regular fa-calendar-check"></i> Joined {{.Admin.JoinedDate}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container profile-body">
+        <div class="profile-stats-row">
+            <div class="profile-stat-card">
+                <span class="stat-number">{{.PostCount}}</span>
+                <span class="stat-label">Stories</span>
+            </div>
+            <div class="profile-stat-card">
+                <span class="stat-number">{{.TotalViews}}</span>
+                <span class="stat-label">Total Views</span>
+            </div>
+            <div class="profile-stat-card">
+                <span class="stat-number">{{.TotalReactions}}</span>
+                <span class="stat-label">Reactions</span>
+            </div>
+            <div class="profile-stat-card">
+                <span class="stat-number">{{.TotalComments}}</span>
+                <span class="stat-label">Comments</span>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            <section class="profile-card profile-about">
+                <h2><i class="fa-solid fa-feather-pointed"></i> About</h2>
+                <p>{{if .Admin.Bio}}{{.Admin.Bio}}{{else}}No bio yet. Add one in settings.{{end}}</p>
+            </section>
+
+            <section class="profile-card profile-account">
+                <h2><i class="fa-solid fa-user-shield"></i> Account</h2>
+                <dl class="profile-details">
+                    <div>
+                        <dt>Username</dt>
+                        <dd>{{.Admin.Username}}</dd>
+                    </div>
+                    <div>
+                        <dt>Display name</dt>
+                        <dd>{{.Admin.DisplayName}}</dd>
+                    </div>
+                    {{if .Admin.Website}}
+                    <div>
+                        <dt>Website</dt>
+                        <dd><a href="{{.Admin.Website}}" target="_blank" rel="noopener">{{.Admin.Website}}</a></dd>
+                    </div>
+                    {{end}}
+                </dl>
+            </section>
+        </div>
+    </div>
+</div>
+{{end}}

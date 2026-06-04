@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}} | Storyteller's Blog</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <a href="/"><i class="fa-solid fa-book-open-reader logo-icon"></i> Storyteller's Chronicle</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    {{if .IsAdmin}}
+                    <li><a href="/admin/dashboard" class="admin-btn">Dashboard</a></li>
+                    <li><a href="/admin/profile">Profile</a></li>
+                    <li><a href="/admin/settings">Settings</a></li>
+                    <li><a href="/admin/logout">Logout</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {{block "content" .}}{{end}}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Storyteller's Chronicle. Crafted with ❤️ for the love of stories.</p>
+        </div>
+    </footer>
+</body>
+</html>

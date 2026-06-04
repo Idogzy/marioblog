@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "api/index.go": {
+      "runtime": "go1.x",
+      "memory": 256
+    }
+  },
+  "routes": [
+    { "src": "/static/(.*)", "dest": "/static/$1" },
+    { "src": "/uploads/(.*)", "dest": "/uploads/$1" },
+    { "src": "/(.*)", "dest": "/api/index" }
+  ]
+}

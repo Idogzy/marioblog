@@ -1,0 +1,359 @@
+{{define "content"}}
+<div class="container">
+    <article class="post-full" data-post-id="{{.Post.ID}}">
+        <header class="post-header">
+            <h1 class="post-title">{{.Post.Title}}</h1>
+            <div class="post-meta">
+                <span><i class="fa-solid fa-pen-nib"></i> By {{.Post.Author}}</span>
+                <span><i class="fa-regular fa-calendar-days"></i> {{.Post.Date}}</span>
+                <span><i class="fa-regular fa-eye"></i> {{.Post.Views}} views</span>
+                {{if gt (reactionTotal .Post.Reactions) 0}}
+                <span class="post-meta-reactions"><i class="fa-solid fa-heart text-love"></i> {{reactionTotal .Post.Reactions}} reader reactions</span>
+                {{end}}
+            </div>
+        </header>
+
+        {{if .Post.Image}}
+        <img src="{{.Post.Image}}" alt="{{.Post.Title}}" class="post-image">
+        {{end}}
+
+        <div class="post-content">
+            {{range $line := splitLines .Post.Content}}
+                {{if $line}}
+                    <p>{{$line}}</p>
+                {{else}}
+                    <br>
+                {{end}}
+            {{end}}
+        </div>
+
+        <!-- Interactions Bar (Likes, Reactions, Sharing) -->
+        <div class="story-interactions">
+            <div class="interaction-buttons">
+                <!-- React Trigger and Popup Menu -->
+                <div class="reaction-container">
+                    <button class="interaction-btn react-trigger-btn">
+                        <i class="fa-regular fa-face-smile"></i> React
+                    </button>
+                    
+                    <!-- Reactions Hover/Tap Popover Menu -->
+                    <div class="reactions-popover">
+                        <button class="reaction-btn" data-type="like" title="Like">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-thumbs-up text-like"></i></span>
+                            <span class="reaction-label">Like</span>
+                        </button>
+                        <button class="reaction-btn" data-type="love" title="Love">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-heart text-love"></i></span>
+                            <span class="reaction-label">Love</span>
+                        </button>
+                        <button class="reaction-btn" data-type="haha" title="Haha">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-face-laugh-squint text-haha"></i></span>
+                            <span class="reaction-label">Haha</span>
+                        </button>
+                        <button class="reaction-btn" data-type="wow" title="Wow">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-face-surprise text-wow"></i></span>
+                            <span class="reaction-label">Wow</span>
+                        </button>
+                        <button class="reaction-btn" data-type="sad" title="Sad">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-face-sad-tear text-sad"></i></span>
+                            <span class="reaction-label">Sad</span>
+                        </button>
+                        <button class="reaction-btn" data-type="fire" title="Fire">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-fire text-fire"></i></span>
+                            <span class="reaction-label">Fire</span>
+                        </button>
+                        <button class="reaction-btn" data-type="clap" title="Clap">
+                            <span class="emoji-wrapper"><i class="fa-solid fa-hands-clapping text-clap"></i></span>
+                            <span class="reaction-label">Clap</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Share Trigger -->
+                <div class="share-container">
+                    <button class="interaction-btn share-trigger-btn">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    
+                    <!-- Share Popover/Dropdown -->
+                    <div class="share-popover">
+                        <div class="share-header">Share this Story</div>
+                        <div class="share-options">
+                            <button class="share-option-btn copy-link-btn" title="Copy Link">
+                                <i class="fa-solid fa-link"></i> Copy Link
+                            </button>
+                            <a href="#" class="share-option-btn share-twitter" target="_blank" title="Share on X">
+                                <i class="fa-brands fa-x-twitter"></i> X / Twitter
+                            </a>
+                            <a href="#" class="share-option-btn share-facebook" target="_blank" title="Share on Facebook">
+                                <i class="fa-brands fa-facebook"></i> Facebook
+                            </a>
+                            <a href="#" class="share-option-btn share-linkedin" target="_blank" title="Share on LinkedIn">
+                                <i class="fa-brands fa-linkedin"></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Active Reactions Counter Pills -->
+            <div class="active-reactions">
+                <span class="reaction-badge {{if le .Post.Reactions.Like 0}}hidden{{end}}" data-reaction="like">
+                    <i class="fa-solid fa-thumbs-up text-like"></i> <span class="count">{{.Post.Reactions.Like}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Love 0}}hidden{{end}}" data-reaction="love">
+                    <i class="fa-solid fa-heart text-love"></i> <span class="count">{{.Post.Reactions.Love}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Haha 0}}hidden{{end}}" data-reaction="haha">
+                    <i class="fa-solid fa-face-laugh-squint text-haha"></i> <span class="count">{{.Post.Reactions.Haha}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Wow 0}}hidden{{end}}" data-reaction="wow">
+                    <i class="fa-solid fa-face-surprise text-wow"></i> <span class="count">{{.Post.Reactions.Wow}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Sad 0}}hidden{{end}}" data-reaction="sad">
+                    <i class="fa-solid fa-face-sad-tear text-sad"></i> <span class="count">{{.Post.Reactions.Sad}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Fire 0}}hidden{{end}}" data-reaction="fire">
+                    <i class="fa-solid fa-fire text-fire"></i> <span class="count">{{.Post.Reactions.Fire}}</span>
+                </span>
+                <span class="reaction-badge {{if le .Post.Reactions.Clap 0}}hidden{{end}}" data-reaction="clap">
+                    <i class="fa-solid fa-hands-clapping text-clap"></i> <span class="count">{{.Post.Reactions.Clap}}</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="post-footer">
+            <a href="/" class="back-home"><i class="fa-solid fa-arrow-left"></i> Back to all stories</a>
+        </div>
+    </article>
+
+    <!-- Comments Section -->
+    <section class="comments-section">
+        <h3>Reader's Whispers <i class="fa-regular fa-comments"></i></h3>
+        
+        {{range .Comments}}
+        <div class="comment">
+            <div class="comment-header">
+                <strong><i class="fa-regular fa-user"></i> {{.Author}}</strong>
+                <span><i class="fa-regular fa-calendar-days"></i> {{.Date}}</span>
+            </div>
+            <p>{{.Content}}</p>
+        </div>
+        {{else}}
+        <p class="no-comments">Be the first to share your thoughts...</p>
+        {{end}}
+
+        <form action="/comment" method="POST" class="comment-form">
+            <input type="hidden" name="post_id" value="{{.Post.ID}}">
+            <div class="form-group">
+                <label for="author">Your Name</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Your Comment</label>
+                <textarea id="content" name="content" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Share Whisper <i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const article = document.querySelector('.post-full');
+    if (!article) return;
+
+    const postId = article.getAttribute('data-post-id');
+    const shareUrl = window.location.href;
+    const shareTitle = document.title;
+
+    // --- Share Button Event Listeners & Fallbacks ---
+    const shareTwitter = document.querySelector('.share-twitter');
+    const shareFacebook = document.querySelector('.share-facebook');
+    const shareLinkedin = document.querySelector('.share-linkedin');
+    const copyLinkBtn = document.querySelector('.copy-link-btn');
+    const shareTriggerBtn = document.querySelector('.share-trigger-btn');
+    const shareContainer = document.querySelector('.share-container');
+
+    if (shareTwitter) shareTwitter.href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`;
+    if (shareFacebook) shareFacebook.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    if (shareLinkedin) shareLinkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            try {
+                await navigator.clipboard.writeText(shareUrl);
+                showCopiedFeedback();
+            } catch (err) {
+                // Fallback copying method
+                const textarea = document.createElement('textarea');
+                textarea.value = shareUrl;
+                textarea.style.position = 'fixed';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopiedFeedback();
+                } catch (err2) {
+                    console.error('Fallback copy failed', err2);
+                }
+                document.body.removeChild(textarea);
+            }
+        });
+    }
+
+    function showCopiedFeedback() {
+        const originalContent = copyLinkBtn.innerHTML;
+        copyLinkBtn.innerHTML = '<i class="fa-solid fa-check text-success"></i> Copied!';
+        copyLinkBtn.classList.add('copied');
+        setTimeout(() => {
+            copyLinkBtn.innerHTML = originalContent;
+            copyLinkBtn.classList.remove('copied');
+        }, 2000);
+    }
+
+    // Toggle Share popover
+    if (shareTriggerBtn && shareContainer) {
+        shareTriggerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            shareContainer.classList.toggle('show-share');
+        });
+    }
+
+    // Toggle reactions on tap (mobile)
+    const reactionContainer = document.querySelector('.reaction-container');
+    const reactTrigger = document.querySelector('.react-trigger-btn');
+    if (reactTrigger && reactionContainer) {
+        reactTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            reactionContainer.classList.toggle('show-reactions');
+        });
+    }
+
+    // --- Reaction Handling (one per post per browser session, toggle to remove) ---
+    const reactionStorageKey = `post_reaction_${postId}`;
+    const validTypes = ['like', 'love', 'haha', 'wow', 'sad', 'fire', 'clap'];
+
+    function getSessionReaction() {
+        const saved = sessionStorage.getItem(reactionStorageKey);
+        return validTypes.includes(saved) ? saved : null;
+    }
+
+    function setSessionReaction(type) {
+        if (type) {
+            sessionStorage.setItem(reactionStorageKey, type);
+        } else {
+            sessionStorage.removeItem(reactionStorageKey);
+        }
+    }
+
+    function syncReactionButtonState() {
+        const active = getSessionReaction();
+        document.querySelectorAll('.reactions-popover .reaction-btn').forEach(btn => {
+            const type = btn.getAttribute('data-type');
+            btn.classList.toggle('reaction-active', type === active);
+            btn.setAttribute('aria-pressed', type === active ? 'true' : 'false');
+        });
+    }
+
+    async function sendReaction(type, action) {
+        const formData = new FormData();
+        formData.append('post_id', postId);
+        formData.append('type', type);
+        formData.append('action', action);
+        const response = await fetch('/post/react', { method: 'POST', body: formData });
+        if (!response.ok) {
+            throw new Error('Reaction request failed');
+        }
+        return response.json();
+    }
+
+    syncReactionButtonState();
+
+    const reactionButtons = document.querySelectorAll('.reactions-popover .reaction-btn');
+    reactionButtons.forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const type = btn.getAttribute('data-type');
+            const current = getSessionReaction();
+            const isToggleOff = current === type;
+
+            const reactionsPopover = document.querySelector('.reactions-popover');
+            if (reactionsPopover) {
+                reactionsPopover.classList.add('popover-hide');
+                setTimeout(() => reactionsPopover.classList.remove('popover-hide'), 400);
+            }
+
+            try {
+                if (isToggleOff) {
+                    const data = await sendReaction(type, 'remove');
+                    if (data.success && data.reactions) {
+                        setSessionReaction(null);
+                        updateReactionBadges(data.reactions);
+                        syncReactionButtonState();
+                    }
+                    return;
+                }
+
+                // Switching reaction: remove previous one for this session first
+                if (current && current !== type) {
+                    const removed = await sendReaction(current, 'remove');
+                    if (removed.success && removed.reactions) {
+                        updateReactionBadges(removed.reactions);
+                    }
+                }
+
+                const data = await sendReaction(type, 'add');
+                if (data.success && data.reactions) {
+                    setSessionReaction(type);
+                    updateReactionBadges(data.reactions);
+                    syncReactionButtonState();
+                }
+            } catch (err) {
+                console.error('Error posting reaction:', err);
+            }
+        });
+    });
+
+    function updateReactionBadges(reactions) {
+        Object.keys(reactions).forEach(key => {
+            const count = reactions[key];
+            const badge = document.querySelector(`.reaction-badge[data-reaction="${key}"]`);
+            if (badge) {
+                const countSpan = badge.querySelector('.count');
+                if (countSpan) countSpan.textContent = count;
+                
+                if (count > 0) {
+                    if (badge.classList.contains('hidden')) {
+                        badge.classList.remove('hidden');
+                        badge.classList.add('badge-appear');
+                    } else {
+                        // Trigger pulse animation for existing badge
+                        badge.classList.remove('badge-pulse');
+                        void badge.offsetWidth; // trigger reflow
+                        badge.classList.add('badge-pulse');
+                    }
+                } else {
+                    badge.classList.add('hidden');
+                }
+            }
+        });
+    }
+
+    // Universal click listener to close popovers on click outside
+    window.addEventListener('click', (e) => {
+        if (shareContainer && !shareContainer.contains(e.target)) {
+            shareContainer.classList.remove('show-share');
+        }
+        if (reactionContainer && !reactionContainer.contains(e.target)) {
+            reactionContainer.classList.remove('show-reactions');
+        }
+    });
+});
+</script>
+{{end}}

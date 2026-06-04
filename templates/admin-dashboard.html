@@ -1,0 +1,73 @@
+{{define "content"}}
+<div class="admin-container">
+    <div class="admin-welcome-bar">
+        <div class="admin-welcome-text">
+            <h2>Welcome back, {{.Admin.DisplayName}}</h2>
+            <p>{{.Admin.Tagline}}</p>
+        </div>
+        <div class="admin-welcome-actions">
+            <a href="/admin/profile" class="btn-profile-link"><i class="fa-regular fa-user"></i> My Profile</a>
+            <a href="/admin/settings" class="btn-profile-link secondary"><i class="fa-solid fa-gear"></i> Settings</a>
+            <a href="/admin/create" class="btn-create"><i class="fa-solid fa-feather"></i> Write New Story</a>
+        </div>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="dashboard-stat">
+            <span class="stat-num">{{len .Posts}}</span>
+            <span>Stories</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-num">{{.TotalViews}}</span>
+            <span>Views</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-num">{{.TotalReactions}}</span>
+            <span>Reactions</span>
+        </div>
+        <div class="dashboard-stat">
+            <span class="stat-num">{{.TotalComments}}</span>
+            <span>Comments</span>
+        </div>
+    </div>
+
+    <div class="admin-header">
+        <h3><i class="fa-solid fa-folder-open text-primary"></i> Your Stories</h3>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Views</th>
+                <th>Reactions</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Posts}}
+            <tr>
+                <td>{{.Title}}</td>
+                <td>{{.Author}}</td>
+                <td>{{.Date}}</td>
+                <td>{{.Views}}</td>
+                <td>
+                    {{if gt (reactionTotal .Reactions) 0}}
+                    <span class="table-reactions-total">{{reactionTotal .Reactions}}</span>
+                    {{else}}
+                    <span class="table-reactions-none">—</span>
+                    {{end}}
+                </td>
+                <td class="actions">
+                    <a href="/post/{{.ID}}" class="btn-view" target="_blank"><i class="fa-regular fa-eye"></i></a>
+                    <a href="/admin/edit/{{.ID}}" class="btn-edit"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    <a href="/admin/delete/{{.ID}}" class="btn-delete" onclick="return confirm('Delete this story?')"><i class="fa-regular fa-trash-can"></i></a>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+</div>
+{{end}}

@@ -1,0 +1,35 @@
+{{define "content"}}
+<div class="admin-form-container">
+    <h2>Edit Story</h2>
+    
+    <form action="/admin/edit/{{.Post.ID}}" method="POST" enctype="multipart/form-data" class="admin-form">
+        <div class="form-group">
+            <label for="title">Story Title</label>
+            <input type="text" id="title" name="title" value="{{.Post.Title}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="author">Author Name</label>
+            <input type="text" id="author" name="author" value="{{.Post.Author}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Change Cover Image (optional)</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            {{if .Post.Image}}
+            <p class="current-image">Current image: {{.Post.Image}}</p>
+            {{end}}
+        </div>
+
+        <div class="form-group">
+            <label for="content">Story Content</label>
+            <textarea id="content" name="content" rows="15" required>{{.Post.Content}}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-publish"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+            <a href="/admin/dashboard" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+{{end}}

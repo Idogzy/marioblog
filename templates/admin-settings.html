@@ -1,0 +1,92 @@
+{{define "content"}}
+<div class="container">
+    <div class="admin-settings-container">
+        <div class="settings-header">
+            <h2><i class="fa-solid fa-gear"></i> Admin Settings</h2>
+            <p>Update your profile, credentials, and how you appear on the blog.</p>
+            <a href="/admin/profile" class="settings-back-link"><i class="fa-solid fa-arrow-left"></i> Back to profile</a>
+        </div>
+
+        {{if .Error}}
+        <div class="error-message settings-alert"><i class="fa-solid fa-circle-exclamation"></i> {{.Error}}</div>
+        {{end}}
+        {{if .Success}}
+        <div class="success-message settings-alert"><i class="fa-solid fa-circle-check"></i> Settings saved</div>
+        {{end}}
+
+        <form action="/admin/settings" method="POST" enctype="multipart/form-data" class="admin-settings-form">
+            <fieldset class="settings-section">
+                <legend><i class="fa-regular fa-image"></i> Profile photo</legend>
+                <div class="settings-avatar-row">
+                    {{if .Admin.Avatar}}
+                    <img src="{{.Admin.Avatar}}" alt="Current avatar" class="settings-avatar-preview">
+                    {{else}}
+                    <div class="settings-avatar-preview placeholder">{{firstChar .Admin.DisplayName}}</div>
+                    {{end}}
+                    <div class="form-group">
+                        <label for="avatar">Upload new photo</label>
+                        <input type="file" id="avatar" name="avatar" accept="image/*">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="settings-section">
+                <legend><i class="fa-regular fa-id-card"></i> Public profile</legend>
+                <div class="form-group">
+                    <label for="display_name">Display name</label>
+                    <input type="text" id="display_name" name="display_name" value="{{.Admin.DisplayName}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="tagline">Tagline</label>
+                    <input type="text" id="tagline" name="tagline" value="{{.Admin.Tagline}}" placeholder="A short line about you">
+                </div>
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" rows="5" placeholder="Tell readers about yourself">{{.Admin.Bio}}</textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{.Admin.Email}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" value="{{.Admin.Location}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="website">Website</label>
+                    <input type="url" id="website" name="website" value="{{.Admin.Website}}" placeholder="https://">
+                </div>
+            </fieldset>
+
+            <fieldset class="settings-section">
+                <legend><i class="fa-solid fa-key"></i> Login credentials</legend>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" value="{{.Admin.Username}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Current password</label>
+                    <input type="password" id="password" name="password" placeholder="Required only when changing password">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="new_password">New password</label>
+                        <input type="password" id="new_password" name="new_password" placeholder="Leave blank to keep current">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm new password</label>
+                        <input type="password" id="confirm_password" name="confirm_password">
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-publish"><i class="fa-solid fa-floppy-disk"></i> Save changes</button>
+                <a href="/admin/profile" class="btn-cancel">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

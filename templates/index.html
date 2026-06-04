@@ -1,0 +1,38 @@
+{{define "content"}}
+<div class="hero">
+    <div class="container">
+        <h1 class="hero-title">Tales From John</h1>
+        <p class="hero-subtitle">Where stories come alive, one word at a time</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="posts-grid">
+        {{range .Posts}}
+        <article class="post-card">
+            {{if .Image}}
+            <img src="{{.Image}}" alt="{{.Title}}" class="post-card-image">
+            {{else}}
+            <div class="post-card-image-placeholder">📖</div>
+            {{end}}
+            <div class="post-card-content">
+                <h2 class="post-card-title">{{.Title}}</h2>
+                <div class="post-card-meta">
+                    <span><i class="fa-solid fa-pen-nib"></i> {{.Author}}</span>
+                    <span><i class="fa-regular fa-calendar-days"></i> {{.Date}}</span>
+                    <span><i class="fa-regular fa-eye"></i> {{.Views}} views</span>
+                </div>
+                {{if gt (reactionTotal .Reactions) 0}}
+                <div class="post-card-reactions-bar">
+                    <span class="reactions-total-label"><i class="fa-solid fa-heart reaction-heart-icon"></i> {{reactionTotal .Reactions}} reactions</span>
+                    {{template "reaction-badges-mini" .Reactions}}
+                </div>
+                {{end}}
+                <p class="post-card-excerpt">{{.Excerpt}}</p>
+                <a href="/post/{{.ID}}" class="read-more">Continue Reading <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </article>
+        {{end}}
+    </div>
+</div>
+{{end}}
